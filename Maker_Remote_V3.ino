@@ -159,6 +159,18 @@ void Read_adc()
   ch3 = (float)ch3 / 1.5f;
   ch4 =  b_ch4 - _ch4;
 
+if (ch1 > 100) ch1 = 100;
+if (ch1 < -100) ch1 = -100;
+
+if (ch2 > 100) ch2 = 100;
+if (ch2 < -100) ch2 = -100;
+
+if (ch3 > 100) ch3 = 100;
+if (ch3 < 0) ch3 = 0;
+
+if (ch4 > 100) ch4 = 100;
+if (ch4 < -100) ch4 = -100;
+
   Serial.println(ch1);
   Serial.println(ch2);
   Serial.println(ch3);
