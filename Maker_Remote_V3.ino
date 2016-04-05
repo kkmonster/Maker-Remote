@@ -25,7 +25,7 @@ int _ch1, _ch2, _ch3, _ch4;
 
 unsigned long time_now, time_prev_udp, time_prev_led;
 
-char packetBuffer[buffer_size] = {0}; //buffer to hold incoming and outgoing packets
+int8_t packetBuffer[buffer_size] = {0}; //buffer to hold incoming and outgoing packets
 WiFiUDP udp;
 
 void Read_adc();
@@ -112,14 +112,15 @@ void loop()
 }
 void Sent_UDP()
 {
-  packetBuffer[0] = (int8_t)ch1;
-  packetBuffer[1] = (int8_t)ch2;
-  packetBuffer[2] = (int8_t)ch3;
-  packetBuffer[3] = (int8_t)ch4;
-  packetBuffer[4] = '/0';
+	packetBuffer[0] = 0xfe;
+  packetBuffer[1] = (int8_t)ch1;
+  packetBuffer[2] = (int8_t)ch2;
+  packetBuffer[3] = (int8_t)ch3;
+  packetBuffer[4] = (int8_t)ch4;
+  packetBuffer[5] = (int8_t)ch1+(int8_t)ch2+(int8_t)ch3+(int8_t)ch4;  // check sum
 
   udp.beginPacket(local_ip, localPort);
-  udp.write(packetBuffer,5);
+  udp.write((char*)packetBuffer,6);
   udp.endPacket();
 
 
